@@ -15,14 +15,14 @@ window.onload = function() {
 	auto_resize();
 
 	var ctx = c.getContext("2d");
-	
+
 	ctx.fillStyle = "blue";
 	ctx.fillRect(0, 0, w, h);
-	
+
 
 	var shp = new Image();   // Create new img element
-	shp_path = 'resources/sheep_nobg/sheep_nobg'; 
-	
+	shp_path = 'resources/sheep_nobg/sheep_nobg';
+
 	var is_jumping = false;
 	var time = 0;
 	var slowness = 60;
@@ -30,7 +30,7 @@ window.onload = function() {
 	var bg = new Image();   // Create new img element
 	bg.src = 'resources/nice_background.jpg'; 
 
-	
+
 	var bg_pos = 0;
 
 
@@ -38,7 +38,7 @@ window.onload = function() {
     	ctx.drawImage(bg, w-bg_w, h-bg_h, bg_w,  bg_h);
 	});
 	function update(t, dt) {
-	  //auto resize 
+	  //auto resize
 	  auto_resize();
 
 
@@ -60,10 +60,10 @@ window.onload = function() {
 	  bg_pos = -((t%(2*w*slowness/7))/(slowness/7));
 
 
-	  
 
 
-	  
+
+
 	}
 
 	function draw() {
@@ -87,8 +87,8 @@ window.onload = function() {
 	  else {
 	  	ctx.drawImage(shp, w/6, h-shp_h, shp_w, shp_h);
 	  }
-	  
-	  
+
+
 	}
 
 	function loop(t) {
@@ -103,14 +103,14 @@ window.onload = function() {
 
 
 	$(document).keydown(function(e){
-	    if (e.keyCode == 32) { 
+	    if (e.keyCode == 32) {
 	       	console.log( "space pressed" );
 	       	if (!is_jumping) {
 	       		shp_path = 'resources/sheep_jumping/sheep_jumping'
 	       		last_t = time;
 	       		is_jumping = true;
 	       }
-	       
+
 	    }
 	});
 
@@ -129,7 +129,7 @@ window.onload = function() {
 	document.addEventListener("click", function(){
 		rain_audio.switch();
 		guitar_1.switch();
-  		
+
 	});
 
 
@@ -141,7 +141,7 @@ window.onload = function() {
 		this.sound.style.display = "none";
 		document.body.appendChild(this.sound);
 		//this.sound.loop = true;
-		
+
 
 		this.play = function(){
 		    this.sound.play();
@@ -172,6 +172,3 @@ window.onload = function() {
 
 
 };
-
-
-
