@@ -1,7 +1,13 @@
 window.onload = function() {
 	//audio
 	var rain_audio = new sound("resources/rain.mp3");
-	var guitar_1 = new sound("resources/guitar_1.mp3");
+	var guitar_audios = [];
+	var num_audios = 1;
+	for (var i = 1; i < num_audios+1; i++) {
+		guitar_audios.push(new sound("resources/guitar_" + String(i) + ".mp3"));
+	}
+	var guitar_audio_index = 0;
+
 	var c = document.getElementById("myCanvas");
 
 	c.width  = 0;
@@ -19,9 +25,21 @@ window.onload = function() {
 	ctx.fillStyle = "blue";
 	ctx.fillRect(0, 0, w, h);
 
+	// PRELOAD SHEEP IMAGES
 
+	var shp_running_imgs = [];
+	var shp_jumping_imgs = [];
 	var shp = new Image();   // Create new img element
 	shp_path = 'resources/sheep_nobg/sheep_nobg';
+	for (var i = 1; i < 17; i++) {
+		shp_running_imgs.push(new Image());
+		shp_running_imgs[shp_running_imgs.length-1].src = 'resources/sheep_nobg/sheep_nobg.0' + pad(i, 2) + ".png";
+
+		shp_jumping_imgs.push(new Image());
+		shp_jumping_imgs[shp_jumping_imgs.length-1].src = 'resources/sheep_jumping/sheep_jumping.0' + pad(i, 2) + ".png";
+	}
+
+	//END PRELOAD SHEEP IMAGES
 
 	var is_jumping = false;
 	var time = 0;
@@ -41,27 +59,20 @@ window.onload = function() {
 	  //auto resize
 	  auto_resize();
 
-
 	  // Update Sheep
-	  var timestring = Math.floor(dt/slowness)%16+1;
-	  if (timestring == 16 && is_jumping == true) {
-	  	shp_path = 'resources/sheep_nobg/sheep_nobg';
+	  var time = Math.floor(dt/slowness)%16;
+	  if (time == 15 && is_jumping == true) {
 	  	is_jumping = false;
 	  }
-	  if (timestring < 10) {
-	  	timestring = "0" + String(timestring);
+	  if (is_jumping) {
+	  	shp = shp_jumping_imgs[time];
 	  }
 	  else {
-	  	timestring = String(timestring);
+	  	shp = shp_running_imgs[time];
 	  }
-	  shp.src = shp_path +'.0' + timestring + ".png";
 
 	  //update background
 	  bg_pos = -((t%(2*w*slowness/7))/(slowness/7));
-
-
-
-
 
 
 	}
@@ -128,9 +139,14 @@ window.onload = function() {
 
 	document.addEventListener("click", function(){
 		rain_audio.switch();
-		guitar_1.switch();
-
+		guitar_audios[guitar_audio_index].switch();
 	});
+
+	function pad(num, size) {
+	    var s = num+"";
+	    while (s.length < size) s = "0" + s;
+	    return s;
+	}
 
 
 	function sound(src) {
